@@ -82,8 +82,13 @@ class MeasurementController extends Controller
         return redirect('/dashboard');
     }
 
-    public function chart(Request $request, $type) {
+    public function chart(Request $request, $type, User $user = null) {
         $def = null;
+        $id = null;
+
+        if ($user->id) {
+            $id  = $user->id;
+        }
 
         foreach ($this->definitions as $key => $value) {
             if ($value['type'] == $type) {
@@ -95,6 +100,7 @@ class MeasurementController extends Controller
 
         return view('measurements.chart', [
             'def' => $def,
+            'id' => $id,
         ]);
     }
 

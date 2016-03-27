@@ -19,25 +19,16 @@ Route::group(['middleware' => ['web']], function () {
         [ 'as' => 'home', 'uses' => 'MeasurementController@index' ]);
 
     Route::get('/dashboard/{user?}', 
-        [ 'as' => 'dashboard', 'uses' => 'MeasurementController@dashboard']);
+        [ 'as' => 'dashboard', 'uses' => 'MeasurementController@dashboard'])
+        ->where('user', '\d+');
 
-    Route::get('/chart/{type}', 
+    Route::get('/chart/{type}/{user?}', 
         [ 'as' => 'chart', 'uses' =>  'MeasurementController@chart'])
-        ->where('type', 'weight|bodyfat|tbw|muscle|bone');
-
-    Route::get('/chart/{user}/{type}', 
-        [ 'as' => 'chart-other', 'uses' =>  'MeasurementController@chart'])
         ->where('type', 'weight|bodyfat|tbw|muscle|bone')
         ->where('user', '\d+');
 
-    //Route::get('/chart/{type}/{user}', 'MeasurementController@dashboardOther');
-
-    Route::get('/json/chart/{type}.json', 
+    Route::get('/json/chart/{type}/{user?}', 
         [ 'as' => 'chartjson', 'uses' =>  'MeasurementController@chartJson'])
-        ->where('type', 'weight|bodyfat|tbw|muscle|bone');
-
-    Route::get('/json/chart/{user}/{type}.json', 
-        [ 'as' => 'chartjson-other', 'uses' =>  'MeasurementController@chartJson'])
         ->where('type', 'weight|bodyfat|tbw|muscle|bone')
         ->where('user', '\d+');
 
@@ -46,7 +37,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/measurement/add', 
         [ 'as' => 'store', 'uses' => 'MeasurementController@store']);
     Route::delete('/measurement/{measurement}', 
-        [ 'as' => 'destroy', 'uses' => 'MeasurementController@destroy']);
+        [ 'as' => 'destroy', 'uses' => 'MeasurementController@destroy'])
+        ->where('measurement', '\d+');;
 
     // Authentication Routes...
     Route::get('/auth/login', 'Auth\AuthController@getLogin');
