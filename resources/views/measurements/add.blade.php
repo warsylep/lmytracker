@@ -67,6 +67,15 @@
             </div>
         </form>
     </div>
+@endsection
+
+@section('css')
+<link href="/bower/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+@endsection
+
+@section('javascript')
+<script src="/bower/moment/min/moment.min.js" type="text/javascript"></script>
+<script src="/bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
     $(function () {
@@ -75,5 +84,4 @@
         });
     });
 </script>
-
 @endsection

@@ -13,9 +13,8 @@
 
         <!-- Styles -->
         <link href="/bower/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-        <!--<link href="/bower/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">-->
-        <link href="/bower/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
         {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
+@yield('css')
 
         <style>
             body {
@@ -49,7 +48,7 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li><a href="{{ url('/home') }}">Home</a></li>
+                        <li><a href="{{ url('/dashboard') }}">Home</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -78,9 +77,8 @@
 
         <!-- JavaScripts -->
         <script src="/bower/jquery/dist/jquery.min.js" type="text/javascript"></script>
-        <script src="/bower/moment/min/moment.min.js" type="text/javascript"></script>
         <script src="/bower/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="/bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
         {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+@yield('javascript')
     </body>
 </html>

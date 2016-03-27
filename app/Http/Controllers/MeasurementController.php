@@ -15,7 +15,7 @@ class MeasurementController extends Controller
 
     public function __construct(MeasurementRepository $measurements)
     {
-        $this->middleware('auth', ['except' => ['indexOther', 'index']]);
+        $this->middleware('auth', ['except' => ['dashboardOther', 'index']]);
         $this->measurements = $measurements;
     }
 
@@ -24,14 +24,14 @@ class MeasurementController extends Controller
         return view('measurements.index');
     }
 
-    public function indexSelf(Request $request) {
-        return view('measurements.home', [
+    public function dashboardSelf(Request $request) {
+        return view('measurements.dashboard', [
             'measurements' => $this->measurements->forUser($request->user()),
         ]);
     }
 
-    public function indexOther(Request $request, User $user) {
-        return view('measurements.home', [
+    public function dashboardOther(Request $request, User $user) {
+        return view('measurements.dashboard', [
             'measurements' => $this->measurements->forUser($user),
         ]);
     }
@@ -59,7 +59,7 @@ class MeasurementController extends Controller
             'bone'    => $request->bone,
         ]);
 
-        return redirect('/measurements');
+        return redirect('/dashboard');
     }
 
     public function destroy(Request $request, Measurement $measurement) {
@@ -67,6 +67,6 @@ class MeasurementController extends Controller
 
         $measurement->delete();
 
-        return redirect('/measurements');
+        return redirect('/dashboard');
     }
 }

@@ -16,8 +16,8 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'MeasurementController@index');
 
-    Route::get('/home', 'MeasurementController@indexSelf');
-    Route::get('/measurements/{user}', 'MeasurementController@indexOther');
+    Route::get('/dashboard', 'MeasurementController@dashboardSelf');
+    Route::get('/dashboard/{user}', 'MeasurementController@dashboardOther');
 
     Route::get('/measurement', 'MeasurementController@add');
     Route::post('/measurement', 'MeasurementController@store');
