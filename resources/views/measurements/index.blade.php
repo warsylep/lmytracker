@@ -20,7 +20,9 @@
                         <th>Body Water</th>
                         <th>Muscle Mass</th>
                         <th>Bone Mass</th>
+                        @if (Auth::id() == $measurements[0]->user_id)
                         <th>&nbsp;</th>
+                        @endif
                     </thead>
 
                     <!-- Table Body -->
@@ -51,6 +53,7 @@
                                     <div>{{ $measurement->bone }}</div>
                                 </td>
 
+                                @if (Auth::id() == $measurement->user_id)
                                 <td>
                                     <form action="/measurement/{{ $measurement->id }}" method="POST">
                                         {{ csrf_field() }}
@@ -58,6 +61,7 @@
                                         <button>Delete Measurement</button>
                                     </form>
                                 </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>

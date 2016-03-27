@@ -6,6 +6,7 @@ use Validator;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Measurement;
+use App\User;
 use App\Repositories\MeasurementRepository;
 
 class MeasurementController extends Controller
@@ -18,9 +19,15 @@ class MeasurementController extends Controller
         $this->measurements = $measurements;
     }
 
-    public function index(Request $request) {
+    public function indexself(Request $request) {
         return view('measurements.index', [
             'measurements' => $this->measurements->forUser($request->user()),
+        ]);
+    }
+
+    public function indexother(Request $request, User $user) {
+        return view('measurements.index', [
+            'measurements' => $this->measurements->forUser($user),
         ]);
     }
 
