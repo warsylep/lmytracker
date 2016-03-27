@@ -78,7 +78,7 @@ $(document).ready(function () {
             }]
     });
 
-    $.getJSON('{{ route('chartjson', [ 'type' => $def['type'], 'user' => $id ]) }}', function(data) {
+    $.getJSON('{{ route('measurement.chart.json', [ 'type' => $def['type'], 'user' => $id ]) }}', function(data) {
         $.each(data, function (i, data) {
             chart.series[0].addPoint([
                 new Date(data[0]).getTime(),

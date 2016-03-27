@@ -7,7 +7,7 @@
         @include('common.errors')
 
         <!-- New Measurement Form -->
-        <form action="{{ route('store') }}" method="POST" class="form-horizontal">
+        <form action="{{ route('measurement.store') }}" method="POST" class="form-horizontal">
             {{ csrf_field() }}
 
             <div class="form-group">

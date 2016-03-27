@@ -20,8 +20,8 @@ class MeasurementPolicy
         //
     }
 
-    public function destroy(User $user, Measurement $measurement)
+    public function delete(User $user, Measurement $measurement)
     {
-        return $user->id === $measurement->user_id;
+        return $user->id == $measurement->user_id;
     }
 }

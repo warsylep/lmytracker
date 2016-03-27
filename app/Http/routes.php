@@ -23,21 +23,23 @@ Route::group(['middleware' => ['web']], function () {
         ->where('user', '\d+');
 
     Route::get('/chart/{type}/{user?}', 
-        [ 'as' => 'chart', 'uses' =>  'MeasurementController@chart'])
+        [ 'as' => 'measurement.chart', 'uses' => 'MeasurementController@chart'])
         ->where('type', 'weight|bodyfat|tbw|muscle|bone')
         ->where('user', '\d+');
 
     Route::get('/json/chart/{type}/{user?}', 
-        [ 'as' => 'chartjson', 'uses' =>  'MeasurementController@chartJson'])
+        [ 'as' => 'measurement.chart.json', 'uses' => 'MeasurementController@chartJson'])
         ->where('type', 'weight|bodyfat|tbw|muscle|bone')
         ->where('user', '\d+');
 
     Route::get('/measurement/add', 
-        [ 'as' => 'add', 'uses' =>  'MeasurementController@add']);
+        [ 'as' => 'measurement.add', 'uses' => 'MeasurementController@add']);
     Route::post('/measurement/add', 
-        [ 'as' => 'store', 'uses' => 'MeasurementController@store']);
+        [ 'as' => 'measurement.store', 'uses' => 'MeasurementController@store']);
+
+    // delete measurement
     Route::delete('/measurement/{measurement}', 
-        [ 'as' => 'destroy', 'uses' => 'MeasurementController@destroy'])
+        [ 'as' => 'measurement.delete', 'uses' => 'MeasurementController@delete'])
         ->where('measurement', '\d+');;
 
     // Authentication Routes...

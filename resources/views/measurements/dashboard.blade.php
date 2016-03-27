@@ -12,19 +12,19 @@
                     <thead>
                         <th class="text-center">Date</th>
                         <th class="text-center">
-                            <a href="{{ route('chart', 'weight') }}">Weight (kg)</a>
+                            <a href="{{ route('measurement.chart', 'weight') }}">Weight (kg)</a>
                         </th>
                         <th class="text-center">
-                            <a href="{{ route('chart', 'bodyfat') }}">Body Fat (%)</a>
+                            <a href="{{ route('measurement.chart', 'bodyfat') }}">Body Fat (%)</a>
                         </th>
                         <th class="text-center">
-                            <a href="{{ route('chart', 'tbw') }}">Body Water (%)</a>
+                            <a href="{{ route('measurement.chart', 'tbw') }}">Body Water (%)</a>
                         </th>
                         <th class="text-center">
-                            <a href="{{ route('chart', 'muscle') }}">Muscle Mass (%)</a>
+                            <a href="{{ route('measurement.chart', 'muscle') }}">Muscle Mass (%)</a>
                         </th>
                         <th class="text-center">
-                            <a href="{{ route('chart', 'bone') }}">Bone Mass (grams)</a>
+                            <a href="{{ route('measurement.chart', 'bone') }}">Bone Mass (grams)</a>
                         </th>
                         @if (Auth::id() == $measurements[0]->user_id)
                         <th class="text-center">&nbsp;</th>
@@ -60,7 +60,7 @@
                                     </a>
                                 </td>
                                 <td class="text-center">
-                                    <form action="{{ route('destroy', $measurement->id) }}" method="POST">
+                                    <form action="{{ route('measurement.delete', $measurement->id) }}" method="POST">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                         <button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>

@@ -74,8 +74,8 @@ class MeasurementController extends Controller
         return redirect('/dashboard');
     }
 
-    public function destroy(Request $request, Measurement $measurement) {
-        $this->authorize('destroy', $measurement);
+    public function delete(Request $request, Measurement $measurement) {
+        $this->authorize('delete', $measurement);
 
         $measurement->delete();
 
