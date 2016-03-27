@@ -15,18 +15,23 @@ class MeasurementController extends Controller
 
     public function __construct(MeasurementRepository $measurements)
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['indexOther', 'index']]);
         $this->measurements = $measurements;
     }
 
-    public function indexself(Request $request) {
-        return view('measurements.index', [
+    public function index()
+    {
+        return view('measurements.index');
+    }
+
+    public function indexSelf(Request $request) {
+        return view('measurements.home', [
             'measurements' => $this->measurements->forUser($request->user()),
         ]);
     }
 
-    public function indexother(Request $request, User $user) {
-        return view('measurements.index', [
+    public function indexOther(Request $request, User $user) {
+        return view('measurements.home', [
             'measurements' => $this->measurements->forUser($user),
         ]);
     }
