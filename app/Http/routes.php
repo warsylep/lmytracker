@@ -19,6 +19,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/dashboard', 'MeasurementController@dashboardSelf');
     Route::get('/dashboard/{user}', 'MeasurementController@dashboardOther');
 
+    Route::get('/chart/{type}', 'MeasurementController@chart');
+    //Route::get('/chart/{type}/{user}', 'MeasurementController@dashboardOther');
+    Route::get('/json/chart/{type}.json', 'MeasurementController@chartJson');
+
     Route::get('/measurement', 'MeasurementController@add');
     Route::post('/measurement', 'MeasurementController@store');
 

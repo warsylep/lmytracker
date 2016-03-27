@@ -16,7 +16,7 @@ class MeasurementRepository
     public function forUser(User $user)
     {
         return Measurement::where('user_id', $user->id)
-                    ->orderBy('created_at', 'asc')
+                    ->orderBy('date', 'asc')
                     ->get();
     }
 }

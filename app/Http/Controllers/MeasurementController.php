@@ -69,4 +69,55 @@ class MeasurementController extends Controller
 
         return redirect('/dashboard');
     }
+
+    public function chart(Request $request, $type) {
+        $definitions = [
+            [ 'type' => 'weight', 'title' => 'Weight', 'unit' => 'kg' ],
+            [ 'type' => 'bodyfat', 'title' => 'Body Fat', 'unit' => '%' ],
+            [ 'type' => 'tbw', 'title' => 'Body Water', 'unit' => '%' ],
+            [ 'type' => 'muscle', 'title' => 'Muscle Mass', 'unit' => '%' ],
+            [ 'type' => 'bone', 'title' => 'Bone Mass', 'unit' => 'grams' ],
+        ];
+
+        foreach ($definitions as $key => $value) {
+            if ($value['type'] == $type) {
+                $info = $definitions[$key];
+            }
+        }
+
+        $info['pagetitle'] = $info['title'] . " - " . $info['unit'];
+
+        return view('measurements.chart', [
+            'info' => $info,
+        ]);
+    }
+
+    public function chartJson(Request $request, $type) {
+        $definitions = [
+            [ 'type' => 'weight' ],
+            [ 'type' => 'bodyfat' ],
+            [ 'type' => 'tbw' ],
+            [ 'type' => 'muscle' ],
+            [ 'type' => 'bone' ],
+        ];
+
+        $measurements = $this->measurements->forUser($request->user());
+
+        $data = [];
+
+        foreach ($definitions as $key => $value) {
+            if ($value['type'] == $type) {
+                foreach ($measurements as $key2 => $value2) {
+                    $time = strtotime ($value2->date);
+                    $date = strftime ("%Y-%m-%d", $time);
+                    $data[] = [
+                        $date,
+                        (float) $value2->{$type}
+                    ];
+                }
+            }
+        }
+
+        return response()->json($data);
+    }
 }

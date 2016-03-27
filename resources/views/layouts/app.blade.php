@@ -14,7 +14,7 @@
         <!-- Styles -->
         <link href="/bower/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
-@yield('css')
+        @yield('css')
 
         <style>
             body {
@@ -49,6 +49,9 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         <li><a href="{{ url('/dashboard') }}">Home</a></li>
+                        @if (Auth::check())
+                        <li><a href="{{ url('/measurement') }}">Add</a></li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -79,6 +82,6 @@
         <script src="/bower/jquery/dist/jquery.min.js" type="text/javascript"></script>
         <script src="/bower/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
         {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
-@yield('javascript')
+        @yield('javascript')
     </body>
 </html>
