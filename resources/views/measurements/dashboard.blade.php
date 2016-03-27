@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- Current Measurements -->
     @if (count($measurements) > 0)
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -13,19 +12,19 @@
                     <thead>
                         <th class="text-center">Date</th>
                         <th class="text-center">
-                            <a href="/chart/weight">Weight (kg)</a>
+                            <a href="{{ route('chart', 'weight') }}">Weight (kg)</a>
                         </th>
                         <th class="text-center">
-                            <a href="/chart/bodyfat">Body Fat (%)</a>
+                            <a href="{{ route('chart', 'bodyfat') }}">Body Fat (%)</a>
                         </th>
                         <th class="text-center">
-                            <a href="/chart/tbw">Body Water (%)</a>
+                            <a href="{{ route('chart', 'tbw') }}">Body Water (%)</a>
                         </th>
                         <th class="text-center">
-                            <a href="/chart/muscle">Muscle Mass (%)</a>
+                            <a href="{{ route('chart', 'muscle') }}">Muscle Mass (%)</a>
                         </th>
                         <th class="text-center">
-                            <a href="/chart/bone">Bone Mass (grams)</a>
+                            <a href="{{ route('chart', 'bone') }}">Bone Mass (grams)</a>
                         </th>
                         @if (Auth::id() == $measurements[0]->user_id)
                         <th class="text-center">&nbsp;</th>
@@ -33,7 +32,6 @@
                         @endif
                     </thead>
 
-                    <!-- Table Body -->
                     <tbody>
                         @foreach ($measurements as $measurement)
                             <tr>
@@ -62,7 +60,7 @@
                                     </a>
                                 </td>
                                 <td class="text-center">
-                                    <form action="/measurement/{{ $measurement->id }}" method="POST">
+                                    <form action="{{ route('destroy', $measurement->id) }}" method="POST">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                         <button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>

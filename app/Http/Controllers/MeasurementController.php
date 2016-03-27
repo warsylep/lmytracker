@@ -11,11 +11,19 @@ use App\Repositories\MeasurementRepository;
 
 class MeasurementController extends Controller
 {
+    private $definitions = [
+        [ 'type' => 'weight',  'name' => 'Weight',      'unit' => 'kg' ],
+        [ 'type' => 'bodyfat', 'name' => 'Body Fat',    'unit' => '%' ],
+        [ 'type' => 'tbw',     'name' => 'Body Water',  'unit' => '%' ],
+        [ 'type' => 'muscle',  'name' => 'Muscle Mass', 'unit' => '%' ],
+        [ 'type' => 'bone',    'name' => 'Bone Mass',   'unit' => 'grams' ],
+    ];
+
     protected $measurements;
 
     public function __construct(MeasurementRepository $measurements)
     {
-        $this->middleware('auth', ['except' => ['dashboardOther', 'index']]);
+        $this->middleware('auth', ['except' => ['dashboard', 'index']]);
         $this->measurements = $measurements;
     }
 
@@ -24,16 +32,20 @@ class MeasurementController extends Controller
         return view('measurements.index');
     }
 
-    public function dashboardSelf(Request $request) {
-        return view('measurements.dashboard', [
-            'measurements' => $this->measurements->forUser($request->user()),
-        ]);
-    }
+    public function dashboard(Request $request, User $user = null) {
+        if ($user->id) {
+            $measurements = $this->measurements->forUser($user);
+        } else {
+            if (!$request->user()) {
+                return redirect('/');
+            }
+            $measurements = $this->measurements->forUser($request->user());
+        }
 
-    public function dashboardOther(Request $request, User $user) {
         return view('measurements.dashboard', [
-            'measurements' => $this->measurements->forUser($user),
+            'measurements' => $measurements,
         ]);
+
     }
 
     public function add(Request $request) {
@@ -63,7 +75,7 @@ class MeasurementController extends Controller
     }
 
     public function destroy(Request $request, Measurement $measurement) {
-        //$this->authorize('destroy', $measurement);
+        $this->authorize('destroy', $measurement);
 
         $measurement->delete();
 
@@ -71,42 +83,29 @@ class MeasurementController extends Controller
     }
 
     public function chart(Request $request, $type) {
-        $definitions = [
-            [ 'type' => 'weight', 'title' => 'Weight', 'unit' => 'kg' ],
-            [ 'type' => 'bodyfat', 'title' => 'Body Fat', 'unit' => '%' ],
-            [ 'type' => 'tbw', 'title' => 'Body Water', 'unit' => '%' ],
-            [ 'type' => 'muscle', 'title' => 'Muscle Mass', 'unit' => '%' ],
-            [ 'type' => 'bone', 'title' => 'Bone Mass', 'unit' => 'grams' ],
-        ];
+        $def = null;
 
-        foreach ($definitions as $key => $value) {
+        foreach ($this->definitions as $key => $value) {
             if ($value['type'] == $type) {
-                $info = $definitions[$key];
+                $def = $this->definitions[$key];
             }
         }
 
-        $info['pagetitle'] = $info['title'] . " - " . $info['unit'];
+        if ($def == null) return redirect('/dashboard');
 
         return view('measurements.chart', [
-            'info' => $info,
+            'def' => $def,
         ]);
     }
 
     public function chartJson(Request $request, $type) {
-        $definitions = [
-            [ 'type' => 'weight' ],
-            [ 'type' => 'bodyfat' ],
-            [ 'type' => 'tbw' ],
-            [ 'type' => 'muscle' ],
-            [ 'type' => 'bone' ],
-        ];
+        $data = null;
 
         $measurements = $this->measurements->forUser($request->user());
 
-        $data = [];
-
-        foreach ($definitions as $key => $value) {
+        foreach ($this->definitions as $key => $value) {
             if ($value['type'] == $type) {
+                $data = [];
                 foreach ($measurements as $key2 => $value2) {
                     $time = strtotime ($value2->date);
                     $date = strftime ("%Y-%m-%d", $time);
@@ -117,6 +116,8 @@ class MeasurementController extends Controller
                 }
             }
         }
+
+        if ($data == null) return redirect('/dashboard');        
 
         return response()->json($data);
     }

@@ -3,7 +3,7 @@
 @section('content')
 <div class="panel panel-default">
     <div class="panel-heading">
-        {{ $info['pagetitle'] }}
+        {{ $def['name'] . " - " . $def['unit'] }}
     </div>
 
     <div class="panel-body">
@@ -49,17 +49,17 @@ $(document).ready(function () {
         },
         yAxis: {
             title: {
-                text: '{{ $info['unit'] }}'
+                text: '{{ $def['unit'] }}'
             },
             labels: {
                 formatter: function () {
-                    return this.value + ' {{ $info['unit'] }}';
+                    return this.value + ' {{ $def['unit'] }}';
                 }
             },
         },
         tooltip: {
             headerFormat: '<b>{series.name}</b><br>',
-            pointFormat: '{point.x:%d %b \'%y} - {point.y:.2f} {{ $info['unit'] }}'
+            pointFormat: '{point.x:%d %b \'%y} - {point.y:.2f} {{ $def['unit'] }}'
         },
         plotOptions: {
             spline: {
@@ -73,11 +73,12 @@ $(document).ready(function () {
             }
         },
             series: [{
-                name: '{{ $info['title'] }}',
+                name: '{{ $def['name'] }}',
                 data: []
             }]
     });
-    $.getJSON('/json/chart/{{ $info['type'] }}.json', function(data) {
+
+    $.getJSON('{{ route('chartjson', $def['type']) }}', function(data) {
         $.each(data, function (i, data) {
             chart.series[0].addPoint([
                 new Date(data[0]).getTime(),

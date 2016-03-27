@@ -40,7 +40,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
+                    <a class="navbar-brand" href="{{ route('home') }}">
                         MyTracker
                     </a>
                 </div>
@@ -48,9 +48,9 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li><a href="{{ url('/dashboard') }}">Home</a></li>
+                        <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                         @if (Auth::check())
-                        <li><a href="{{ url('/measurement') }}">Add</a></li>
+                        <li><a href="{{ route('add') }}">Add</a></li>
                         @endif
                     </ul>
 

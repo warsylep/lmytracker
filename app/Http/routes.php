@@ -14,19 +14,39 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['middleware' => ['web']], function () {
-    Route::get('/', 'MeasurementController@index');
 
-    Route::get('/dashboard', 'MeasurementController@dashboardSelf');
-    Route::get('/dashboard/{user}', 'MeasurementController@dashboardOther');
+    Route::get('/', 
+        [ 'as' => 'home', 'uses' => 'MeasurementController@index' ]);
 
-    Route::get('/chart/{type}', 'MeasurementController@chart');
+    Route::get('/dashboard/{user?}', 
+        [ 'as' => 'dashboard', 'uses' => 'MeasurementController@dashboard']);
+
+    Route::get('/chart/{type}', 
+        [ 'as' => 'chart', 'uses' =>  'MeasurementController@chart'])
+        ->where('type', 'weight|bodyfat|tbw|muscle|bone');
+
+    Route::get('/chart/{user}/{type}', 
+        [ 'as' => 'chart-other', 'uses' =>  'MeasurementController@chart'])
+        ->where('type', 'weight|bodyfat|tbw|muscle|bone')
+        ->where('user', '\d+');
+
     //Route::get('/chart/{type}/{user}', 'MeasurementController@dashboardOther');
-    Route::get('/json/chart/{type}.json', 'MeasurementController@chartJson');
 
-    Route::get('/measurement', 'MeasurementController@add');
-    Route::post('/measurement', 'MeasurementController@store');
+    Route::get('/json/chart/{type}.json', 
+        [ 'as' => 'chartjson', 'uses' =>  'MeasurementController@chartJson'])
+        ->where('type', 'weight|bodyfat|tbw|muscle|bone');
 
-    Route::delete('/measurement/{measurement}','MeasurementController@destroy');
+    Route::get('/json/chart/{user}/{type}.json', 
+        [ 'as' => 'chartjson-other', 'uses' =>  'MeasurementController@chartJson'])
+        ->where('type', 'weight|bodyfat|tbw|muscle|bone')
+        ->where('user', '\d+');
+
+    Route::get('/measurement/add', 
+        [ 'as' => 'add', 'uses' =>  'MeasurementController@add']);
+    Route::post('/measurement/add', 
+        [ 'as' => 'store', 'uses' => 'MeasurementController@store']);
+    Route::delete('/measurement/{measurement}', 
+        [ 'as' => 'destroy', 'uses' => 'MeasurementController@destroy']);
 
     // Authentication Routes...
     Route::get('/auth/login', 'Auth\AuthController@getLogin');
